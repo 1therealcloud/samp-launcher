@@ -1,6 +1,6 @@
 # SA:MP Launcher
 
-Modernized SA:MP launcher for Windows.
+An improved, modernized SA:MP 0.3.7/DL launcher - rewritten in C++, adapted for RAD Studio, and fully compatible with the original launcher
 
 ## Highlights
 
@@ -9,16 +9,14 @@ Modernized SA:MP launcher for Windows.
 - fixed numerous source-code and VCL form issues
 - updated icons with higher-resolution versions
 - added full High DPI support
-- improved Windows compatibility, stability, and security
+- added 0.3.DL features
+- improved compatibility, stability, and security
 - fixed and improved `samp.dll` injection into `gta_sa.exe`
 - fixed server and RCON password save
 - fixed UI elements disappearing after pressing Alt
-- restored Internet and Hosted tabs
-- restored and improved the **Master Server Update** button
-- made Internet/Hosted updates faster, asynchronous, and multithreaded
-- preserved compatibility with the original launcher
-- added a visible RCON connection menu item
-- runs the RCON console directly from the launcher
+- Internet and Hosted tabs now work, using `api.open.mp` as the master server source
+- added RCON menu item (was present in older versions)
+- made the launcher multithreaded and asynchronous throughout
 
 ## Structure
 
@@ -30,7 +28,7 @@ resource/  icon, manifest, images
 
 ## Build
 
-Requirements: CMake, Ninja, and RAD Studio 11.2
+Requirements: CMake, Ninja, RAD Studio with TeeChart component (tested on RAD Studio 11.2)
 
 Dynamic build:
 
