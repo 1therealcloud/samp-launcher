@@ -11,21 +11,20 @@
 
 class TfmRconConfig : public TForm
 {
-__published:
-    TEdit   *edHost;
-    TLabel  *lbHost;
-    TLabel  *lbPassword;
-    TEdit   *edPassword;
-    TButton *bnConnect;
-    TButton *bnCancel;
+    __published : TEdit* edHost;
+    TLabel* lbHost;
+    TLabel* lbPassword;
+    TEdit* edPassword;
+    TButton* bnConnect;
+    TButton* bnCancel;
 
-    void __fastcall edHostKeyPress(TObject *Sender, System::WideChar &Key);
-    void __fastcall bnCancelClick(TObject *Sender);
-    void __fastcall bnConnectClick(TObject *Sender);
-    void __fastcall edPasswordChange(TObject *Sender);
+    void __fastcall edHostKeyPress(TObject* Sender, System::WideChar& Key);
+    void __fastcall bnCancelClick(TObject* Sender);
+    void __fastcall bnConnectClick(TObject* Sender);
+    void __fastcall edPasswordChange(TObject* Sender);
 
 public:
-    __fastcall TfmRconConfig(TComponent *Owner);
+    __fastcall TfmRconConfig(TComponent* Owner);
 };
 
-extern PACKAGE TfmRconConfig *fmRconConfig;
+extern PACKAGE TfmRconConfig* fmRconConfig;

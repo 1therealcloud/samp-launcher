@@ -1,4 +1,4 @@
-/*
+﻿/*
 * settings.cpp
 * Copyright (C) 2026 1therealcloud
 *
@@ -11,6 +11,7 @@
 #pragma hdrstop
 
 #include "settings.h"
+#include "CSettings.h"
 #include "main.h"
 
 #include <shlobj.h>
@@ -18,10 +19,9 @@
 #pragma package(smart_init)
 #pragma resource "..\\dfm\\settings.dfm"
 
-TfmSettings *fmSettings;
+TfmSettings* fmSettings;
 
-
-static bool IsValidProxy(const UnicodeString &value)
+static bool IsValidProxy(const UnicodeString& value)
 {
     UnicodeString proxy = value.Trim();
 
@@ -51,98 +51,38 @@ static bool IsValidProxy(const UnicodeString &value)
     return true;
 }
 
+__fastcall TfmSettings::TfmSettings(TComponent* Owner) : TForm(Owner)
+{}
 
-__fastcall TfmSettings::TfmSettings(TComponent *Owner)
-    : TForm(Owner)
+void __fastcall TfmSettings::FormCreate(TObject* Sender)
 {
+    cbSaveServerPasswords->Checked = CSettings::ReadBool(L"SaveServPasses", false);
+    cbSaveRconPasswords->Checked = CSettings::ReadBool(L"SaveRconPasses", false);
+    edCacheLoc->Text = CSettings::ReadString(L"model_cache");
+    edProxyAddress->Text = CSettings::ReadString(L"artwork_proxy");
+    edInstallLoc->Text = ExtractFilePath(CSettings::GetGtaExecutable());
 }
 
-
-void __fastcall TfmSettings::FormCreate(TObject *Sender)
-{
-    TRegistry *reg = new TRegistry();
-
-    try {
-        reg->RootKey = HKEY_CURRENT_USER;
-
-        if (reg->OpenKey(L"SOFTWARE\\SAMP", true)) {
-            if (reg->ValueExists(L"SaveServPasses")) {
-                cbSaveServerPasswords->Checked =
-                    reg->ReadBool(L"SaveServPasses");
-            }
-
-            if (reg->ValueExists(L"SaveRconPasses")) {
-                cbSaveRconPasswords->Checked =
-                    reg->ReadBool(L"SaveRconPasses");
-            }
-
-            if (reg->ValueExists(L"model_cache")) {
-                edCacheLoc->Text =
-                    reg->ReadString(L"model_cache");
-            }
-
-            if (reg->ValueExists(L"artwork_proxy")) {
-                edProxyAddress->Text =
-                    reg->ReadString(L"artwork_proxy");
-            }
-
-            reg->CloseKey();
-        }
-    }
-    __finally {
-        delete reg;
-    }
-
-    edInstallLoc->Text = ExtractFilePath(gta_sa_exe);
-}
-
-
-void __fastcall TfmSettings::bnSaveClick(TObject *Sender)
+void __fastcall TfmSettings::bnSaveClick(TObject* Sender)
 {
     UnicodeString proxy = edProxyAddress->Text.Trim();
 
-    if (!IsValidProxy(proxy)) {
-        Application->MessageBox(
-            L"Invalid proxy address.\n\n"
-            L"Use one of these formats:\n"
-            L"http://host:port\n"
-            L"https://host:port\n"
-            L"socks5://host:port",
-            L"Settings",
-            MB_OK | MB_ICONWARNING
-        );
+    if (!IsValidProxy(proxy))
+    {
+        Application->MessageBox(L"Invalid proxy address.\n\n"
+                                L"Use one of these formats:\n"
+                                L"http://host:port\n"
+                                L"https://host:port\n"
+                                L"socks5://host:port",
+                                L"Settings", MB_OK | MB_ICONWARNING);
 
         edProxyAddress->SetFocus();
         return;
     }
 
-    TRegistry *reg = new TRegistry();
-
-    try {
-        reg->RootKey = HKEY_CURRENT_USER;
-
-        if (reg->OpenKey(L"SOFTWARE\\SAMP", true)) {
-            reg->WriteBool(
-                L"SaveServPasses",
-                cbSaveServerPasswords->Checked
-            );
-
-            reg->WriteBool(
-                L"SaveRconPasses",
-                cbSaveRconPasswords->Checked
-            );
-
-            reg->WriteString(
-                L"artwork_proxy",
-                proxy
-            );
-
-            reg->CloseKey();
-        }
-    }
-    __finally {
-        delete reg;
-    }
+    CSettings::WriteBool(L"SaveServPasses", cbSaveServerPasswords->Checked);
+    CSettings::WriteBool(L"SaveRconPasses", cbSaveRconPasswords->Checked);
+    CSettings::WriteString(L"artwork_proxy", proxy);
 
     edProxyAddress->Text = proxy;
 
@@ -154,65 +94,38 @@ void __fastcall TfmSettings::bnSaveClick(TObject *Sender)
     Close();
 }
 
-void __fastcall TfmSettings::bnCancelClick(TObject *Sender)
+void __fastcall TfmSettings::bnCancelClick(TObject* Sender)
 {
     Close();
 }
 
-void __fastcall TfmSettings::sbBrowseClick(TObject *Sender)
+void __fastcall TfmSettings::sbBrowseClick(TObject* Sender)
 {
-    if (fmMain) {
+    if (fmMain)
+    {
         fmMain->GetGTAExe(this->Handle);
-        edInstallLoc->Text = ExtractFilePath(gta_sa_exe);
+        edInstallLoc->Text = ExtractFilePath(CSettings::GetGtaExecutable());
     }
 }
 
-
-void __fastcall TfmSettings::sbBrowseCacheClick(TObject *Sender)
+void __fastcall TfmSettings::sbBrowseCacheClick(TObject* Sender)
 {
     wchar_t path[MAX_PATH] = {};
     String startDir;
 
-    if (SHGetSpecialFolderPathW(
-            nullptr,
-            path,
-            CSIDL_PERSONAL,
-            false))
+    if (SHGetSpecialFolderPathW(nullptr, path, CSIDL_PERSONAL, false))
     {
-        startDir =
-            String(path) +
-            "\\GTA San Andreas User Files\\SAMP\\cache";
+        startDir = String(path) + "\\GTA San Andreas User Files\\SAMP\\cache";
     }
 
     String directory;
 
-    if (!fmMain ||
-        !fmMain->BrowseForFolder(
-            Handle,
-            directory,
-            startDir,
-            "Please locate your model cache..."))
+    if (!fmMain || !fmMain->BrowseForFolder(Handle, directory, startDir, "Please locate your model cache..."))
     {
         return;
     }
 
     edCacheLoc->Text = directory;
 
-    TRegistry *reg = new TRegistry();
-
-    try {
-        reg->RootKey = HKEY_CURRENT_USER;
-
-        if (reg->OpenKey(L"SOFTWARE\\SAMP", true)) {
-            reg->WriteString(
-                L"model_cache",
-                directory
-            );
-
-            reg->CloseKey();
-        }
-    }
-    __finally {
-        delete reg;
-    }
+    CSettings::WriteString(L"model_cache", directory);
 }

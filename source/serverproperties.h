@@ -11,36 +11,35 @@
 
 class TfmServerProperties : public TForm
 {
-__published:
-    TLabel     *lbAddressLab;
-    TLabel     *lbPlayersLab;
-    TLabel     *lbPingLab;
-    TLabel     *lbModeLab;
-    TLabel     *lbMapLab;
-    TLabel     *lbMap;
-    TLabel     *lbMode;
-    TLabel     *lbPing;
-    TLabel     *lbPlayers;
-    TEdit      *edAddress;
-    TLabel     *lbHostName;
-    TLabel     *lbServerPassword;
-    TLabel     *lbRconPassword;
-    TEdit      *edServerPassword;
-    TEdit      *edRconPassword;
-    TButton    *bnSave;
-    TButton    *bnCancel;
-    TButton    *bnConnect;
-    TPopupMenu *pmCopy;
-    TMenuItem  *piCopy;
+    __published : TLabel* lbAddressLab;
+    TLabel* lbPlayersLab;
+    TLabel* lbPingLab;
+    TLabel* lbModeLab;
+    TLabel* lbMapLab;
+    TLabel* lbMap;
+    TLabel* lbMode;
+    TLabel* lbPing;
+    TLabel* lbPlayers;
+    TEdit* edAddress;
+    TLabel* lbHostName;
+    TLabel* lbServerPassword;
+    TLabel* lbRconPassword;
+    TEdit* edServerPassword;
+    TEdit* edRconPassword;
+    TButton* bnSave;
+    TButton* bnCancel;
+    TButton* bnConnect;
+    TPopupMenu* pmCopy;
+    TMenuItem* piCopy;
 
-    void __fastcall bnSaveClick(TObject *Sender);
-    void __fastcall bnCancelClick(TObject *Sender);
-    void __fastcall bnConnectClick(TObject *Sender);
-    void __fastcall pmCopyPopup(TObject *Sender);
-    void __fastcall piCopyClick(TObject *Sender);
+    void __fastcall bnSaveClick(TObject* Sender);
+    void __fastcall bnCancelClick(TObject* Sender);
+    void __fastcall bnConnectClick(TObject* Sender);
+    void __fastcall pmCopyPopup(TObject* Sender);
+    void __fastcall piCopyClick(TObject* Sender);
 
 public:
-    __fastcall TfmServerProperties(TComponent *Owner);
+    __fastcall TfmServerProperties(TComponent* Owner);
 };
 
-extern PACKAGE TfmServerProperties *fmServerProperties;
+extern PACKAGE TfmServerProperties* fmServerProperties;

@@ -11,12 +11,11 @@
 
 class TfmMasterUpdate : public TForm
 {
-__published:
-	TLabel *lblPleaseWait;
-	TLabel *lblUpdating;
+    __published : TLabel* lblPleaseWait;
+    TLabel* lblUpdating;
 
 public:
-	__fastcall TfmMasterUpdate(TComponent* Owner);
+    __fastcall TfmMasterUpdate(TComponent* Owner);
 };
 
-extern PACKAGE TfmMasterUpdate *fmMasterUpdate;
+extern PACKAGE TfmMasterUpdate* fmMasterUpdate;

@@ -9,21 +9,19 @@
 
 #pragma once
 
-
 class Twnd_webrunform : public TForm
 {
-__published:
-    TBitBtn *BitBtn1;   // Add to favorites ? mrYes
-    TBitBtn *BitBtn2;   // Cancel           ? mrCancel
-    TBitBtn *BitBtn3;   // Play now         ? mrOk
-    TLabel  *Label1;
+    __published : TBitBtn* BitBtn1; // Add to favorites ? mrYes
+    TBitBtn* BitBtn2;               // Cancel           ? mrCancel
+    TBitBtn* BitBtn3;               // Play now         ? mrOk
+    TLabel* Label1;
 
-    void __fastcall BitBtn1Click(TObject *Sender);
-    void __fastcall BitBtn2Click(TObject *Sender);
-    void __fastcall BitBtn3Click(TObject *Sender);
+    void __fastcall BitBtn1Click(TObject* Sender);
+    void __fastcall BitBtn2Click(TObject* Sender);
+    void __fastcall BitBtn3Click(TObject* Sender);
 
 public:
-    __fastcall Twnd_webrunform(TComponent *Owner);
+    __fastcall Twnd_webrunform(TComponent* Owner);
 };
 
-extern PACKAGE Twnd_webrunform *wnd_webrunform;
+extern PACKAGE Twnd_webrunform* wnd_webrunform;

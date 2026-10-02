@@ -11,30 +11,29 @@
 
 class TfmSettings : public TForm
 {
-__published:
-    TButton      *bnSave;
-    TButton      *bnCancel;
-    TGroupBox    *gbPasswords;
-    TCheckBox    *cbSaveServerPasswords;
-    TCheckBox    *cbSaveRconPasswords;
-    TEdit        *edInstallLoc;
-    TLabel       *Label1;
-    TLabel       *lblModelCacheTag;
-    TSpeedButton *sbBrowseCache;
-    TLabel       *lblProxyAddr;
+    __published : TButton* bnSave;
+    TButton* bnCancel;
+    TGroupBox* gbPasswords;
+    TCheckBox* cbSaveServerPasswords;
+    TCheckBox* cbSaveRconPasswords;
+    TEdit* edInstallLoc;
+    TLabel* Label1;
+    TLabel* lblModelCacheTag;
+    TSpeedButton* sbBrowseCache;
+    TLabel* lblProxyAddr;
 
-    TEdit *edCacheLoc;
-    TEdit *edProxyAddress;
-    TSpeedButton *sbBrowse;
+    TEdit* edCacheLoc;
+    TEdit* edProxyAddress;
+    TSpeedButton* sbBrowse;
 
-    void __fastcall bnSaveClick(TObject *Sender);
-    void __fastcall bnCancelClick(TObject *Sender);
-    void __fastcall FormCreate(TObject *Sender);
-    void __fastcall sbBrowseClick(TObject *Sender);
-    void __fastcall sbBrowseCacheClick(TObject *Sender);
+    void __fastcall bnSaveClick(TObject* Sender);
+    void __fastcall bnCancelClick(TObject* Sender);
+    void __fastcall FormCreate(TObject* Sender);
+    void __fastcall sbBrowseClick(TObject* Sender);
+    void __fastcall sbBrowseCacheClick(TObject* Sender);
 
 public:
-    __fastcall TfmSettings(TComponent *Owner);
+    __fastcall TfmSettings(TComponent* Owner);
 };
 
-extern PACKAGE TfmSettings *fmSettings;
+extern PACKAGE TfmSettings* fmSettings;

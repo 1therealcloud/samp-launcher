@@ -13,6 +13,8 @@
 #include <stdexcept>
 #include <cstring>
 
-bool SortArray(void* customArray, int lowIndex, int itemSize, int L, int R, System::Classes::TListSortCompare compareItems);
+bool SortArray(void* customArray, int lowIndex, int itemSize, int L, int R,
+               System::Classes::TListSortCompare compareItems);
 
-bool FindInArray(void* sortedArray, int lowIndex, int itemSize, int itemCount, void* item, System::Classes::TListSortCompare compareItems, int& index);
+bool FindInArray(void* sortedArray, int lowIndex, int itemSize, int itemCount, void* item,
+                 System::Classes::TListSortCompare compareItems, int& index);

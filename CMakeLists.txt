@@ -92,6 +92,14 @@ set(CMAKE_CXX_LINK_EXECUTABLE
 
 set(SAMP_SOURCES
     source/about.cpp
+    source/CDnsResolver.cpp
+    source/CFavorites.cpp
+    source/CGameLauncher.cpp
+    source/CMasterServer.cpp
+    source/CRconClient.cpp
+    source/CServerList.cpp
+    source/CServerQuery.cpp
+    source/CSettings.cpp
     source/exportfavorites.cpp
     source/findsort.cpp
     source/importfavorites.cpp
@@ -106,6 +114,14 @@ set(SAMP_SOURCES
 set(SAMP_HEADERS
     source/stdafx.h
     source/about.h
+    source/CDnsResolver.h
+    source/CFavorites.h
+    source/CGameLauncher.h
+    source/CMasterServer.h
+    source/CRconClient.h
+    source/CServerList.h
+    source/CServerQuery.h
+    source/CSettings.h
     source/exportfavorites.h
     source/findsort.h
     source/globals.h

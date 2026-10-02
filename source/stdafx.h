@@ -48,4 +48,3 @@
 #include <VCLTee.TeEngine.hpp>
 #include <VCLTee.TeeProcs.hpp>
 #include <VclTee.TeeGDIPlus.hpp>
-

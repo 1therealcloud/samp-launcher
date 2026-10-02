@@ -15,9 +15,7 @@
 #pragma package(smart_init)
 #pragma resource "..\\dfm\\exportfavorites.dfm"
 
-TfmExportFavorites *fmExportFavorites;
+TfmExportFavorites* fmExportFavorites;
 
-__fastcall TfmExportFavorites::TfmExportFavorites(TComponent *Owner)
-    : TForm(Owner)
-{
-}
+__fastcall TfmExportFavorites::TfmExportFavorites(TComponent* Owner) : TForm(Owner)
+{}

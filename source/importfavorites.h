@@ -11,13 +11,12 @@
 
 class TfmImportFavorites : public TForm
 {
-__published:
-    TRadioButton *rbAddToCurrent;
-    TRadioButton *rbReplaceCurrent;
-    TButton      *bnOk;
+    __published : TRadioButton* rbAddToCurrent;
+    TRadioButton* rbReplaceCurrent;
+    TButton* bnOk;
 
 public:
-    __fastcall TfmImportFavorites(TComponent *Owner);
+    __fastcall TfmImportFavorites(TComponent* Owner);
 };
 
-extern PACKAGE TfmImportFavorites *fmImportFavorites;
+extern PACKAGE TfmImportFavorites* fmImportFavorites;

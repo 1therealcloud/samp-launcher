@@ -11,12 +11,11 @@
 
 class TfmExportFavorites : public TForm
 {
-__published:
-    TCheckBox *cbIncludeSavedPasswords;
-    TButton   *bnOk;
+    __published : TCheckBox* cbIncludeSavedPasswords;
+    TButton* bnOk;
 
 public:
-    __fastcall TfmExportFavorites(TComponent *Owner);
+    __fastcall TfmExportFavorites(TComponent* Owner);
 };
 
-extern PACKAGE TfmExportFavorites *fmExportFavorites;
+extern PACKAGE TfmExportFavorites* fmExportFavorites;

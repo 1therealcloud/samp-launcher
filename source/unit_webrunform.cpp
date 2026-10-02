@@ -15,24 +15,22 @@
 #pragma package(smart_init)
 #pragma resource "..\\dfm\\unit_webrunform.dfm"
 
-Twnd_webrunform *wnd_webrunform;
+Twnd_webrunform* wnd_webrunform;
 
-__fastcall Twnd_webrunform::Twnd_webrunform(TComponent *Owner)
-    : TForm(Owner)
-{
-}
+__fastcall Twnd_webrunform::Twnd_webrunform(TComponent* Owner) : TForm(Owner)
+{}
 
-void __fastcall Twnd_webrunform::BitBtn1Click(TObject *Sender)
+void __fastcall Twnd_webrunform::BitBtn1Click(TObject* Sender)
 {
     ModalResult = mrYes;
 }
 
-void __fastcall Twnd_webrunform::BitBtn2Click(TObject *Sender)
+void __fastcall Twnd_webrunform::BitBtn2Click(TObject* Sender)
 {
     ModalResult = mrCancel;
 }
 
-void __fastcall Twnd_webrunform::BitBtn3Click(TObject *Sender)
+void __fastcall Twnd_webrunform::BitBtn3Click(TObject* Sender)
 {
     ModalResult = mrOk;
 }

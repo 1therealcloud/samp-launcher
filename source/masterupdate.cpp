@@ -15,9 +15,7 @@
 #pragma package(smart_init)
 #pragma resource "..\\dfm\\masterupdate.dfm"
 
-TfmMasterUpdate *fmMasterUpdate;
+TfmMasterUpdate* fmMasterUpdate;
 
-__fastcall TfmMasterUpdate::TfmMasterUpdate(TComponent* Owner)
-	: TForm(Owner)
-{
-}
+__fastcall TfmMasterUpdate::TfmMasterUpdate(TComponent* Owner) : TForm(Owner)
+{}
