@@ -4,7 +4,7 @@ An improved, modernized SA:MP 0.3.7/DL launcher - rewritten in C++, adapted for 
 
 ## Highlights
 
-- migrated to RAD Studio 11.2
+- migrated to RAD Studio
 - fully rewritten from Pascal to C++
 - fixed numerous source-code and VCL form issues
 - updated icons with higher-resolution versions
@@ -28,7 +28,7 @@ resource/  icon, manifest, images
 
 ## Build
 
-Requirements: CMake, Ninja, RAD Studio with TeeChart component (tested on RAD Studio 11.2)
+Requirements: CMake, Ninja, RAD Studio with TeeChart component (tested on RAD Studio 11.3)
 
 Dynamic build:
 
