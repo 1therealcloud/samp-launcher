@@ -21,16 +21,22 @@ class TfmSettings : public TForm
     TLabel* lblModelCacheTag;
     TSpeedButton* sbBrowseCache;
     TLabel* lblProxyAddr;
+    TLabel* lblDebugScript;
 
     TEdit* edCacheLoc;
     TEdit* edProxyAddress;
+    TEdit* edDebugScript;
     TSpeedButton* sbBrowse;
+    TSpeedButton* sbBrowseDebugScript;
+    TButton* bnLaunchDebug;
 
     void __fastcall bnSaveClick(TObject* Sender);
     void __fastcall bnCancelClick(TObject* Sender);
     void __fastcall FormCreate(TObject* Sender);
     void __fastcall sbBrowseClick(TObject* Sender);
     void __fastcall sbBrowseCacheClick(TObject* Sender);
+    void __fastcall sbBrowseDebugScriptClick(TObject* Sender);
+    void __fastcall bnLaunchDebugClick(TObject* Sender);
 
 public:
     __fastcall TfmSettings(TComponent* Owner);

@@ -12,6 +12,7 @@
 
 #include "settings.h"
 #include "CSettings.h"
+#include "CGameLauncher.h"
 #include "main.h"
 
 #include <shlobj.h>
@@ -60,6 +61,7 @@ void __fastcall TfmSettings::FormCreate(TObject* Sender)
     cbSaveRconPasswords->Checked = CSettings::ReadBool(L"SaveRconPasses", false);
     edCacheLoc->Text = CSettings::ReadString(L"model_cache");
     edProxyAddress->Text = CSettings::ReadString(L"artwork_proxy");
+    edDebugScript->Text = CSettings::ReadString(L"debug_script");
     edInstallLoc->Text = ExtractFilePath(CSettings::GetGtaExecutable());
 }
 
@@ -83,6 +85,7 @@ void __fastcall TfmSettings::bnSaveClick(TObject* Sender)
     CSettings::WriteBool(L"SaveServPasses", cbSaveServerPasswords->Checked);
     CSettings::WriteBool(L"SaveRconPasses", cbSaveRconPasswords->Checked);
     CSettings::WriteString(L"artwork_proxy", proxy);
+    CSettings::WriteString(L"debug_script", edDebugScript->Text.Trim());
 
     edProxyAddress->Text = proxy;
 
@@ -129,3 +132,46 @@ void __fastcall TfmSettings::sbBrowseCacheClick(TObject* Sender)
 
     CSettings::WriteString(L"model_cache", directory);
 }
+
+void __fastcall TfmSettings::sbBrowseDebugScriptClick(TObject* Sender)
+{
+    TOpenDialog* dialog = new TOpenDialog(this);
+    try
+    {
+        dialog->Filter = L"SA-MP Debug Script (*.txt)|*.txt|All Files (*.*)|*.*";
+        dialog->Options << ofEnableSizing << ofFileMustExist << ofPathMustExist;
+        dialog->Title = L"Select SA-MP debug script";
+
+        String current = edDebugScript->Text.Trim();
+        if (!current.IsEmpty())
+            dialog->InitialDir = ExtractFilePath(current);
+        else
+            dialog->InitialDir = ExtractFilePath(CSettings::GetGtaExecutable());
+
+        if (dialog->Execute())
+            edDebugScript->Text = dialog->FileName;
+    }
+    __finally
+    {
+        delete dialog;
+    }
+}
+
+void __fastcall TfmSettings::bnLaunchDebugClick(TObject* Sender)
+{
+    String debugScript = edDebugScript->Text.Trim();
+
+    if (!debugScript.IsEmpty() && !FileExists(debugScript))
+    {
+        Application->MessageBox((L"Debug script not found.\n\n" + debugScript).c_str(), L"Settings",
+                                MB_OK | MB_ICONWARNING);
+        edDebugScript->SetFocus();
+        return;
+    }
+
+    CSettings::WriteString(L"debug_script", debugScript);
+
+    if (fmMain && CGameLauncher::Debug(fmMain, debugScript) == TGameLaunchResult::Started)
+        Close();
+}
+

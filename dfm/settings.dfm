@@ -3,7 +3,7 @@ object fmSettings: TfmSettings
   Top = 185
   BorderStyle = bsDialog
   Caption = 'Settings'
-  ClientHeight = 258
+  ClientHeight = 298
   ClientWidth = 318
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -16,7 +16,7 @@ object fmSettings: TfmSettings
   TextHeight = 13
   object bnSave: TButton
     Left = 8
-    Top = 224
+    Top = 264
     Width = 75
     Height = 25
     Caption = 'Save'
@@ -26,20 +26,29 @@ object fmSettings: TfmSettings
   end
   object bnCancel: TButton
     Left = 88
-    Top = 224
+    Top = 264
     Width = 75
     Height = 25
     Caption = 'Cancel'
     TabOrder = 1
     OnClick = bnCancelClick
   end
+  object bnLaunchDebug: TButton
+    Left = 198
+    Top = 264
+    Width = 111
+    Height = 25
+    Caption = 'Launch Debug'
+    TabOrder = 2
+    OnClick = bnLaunchDebugClick
+  end
   object gbPasswords: TGroupBox
     Left = 8
     Top = 8
     Width = 301
-    Height = 209
+    Height = 249
     Caption = ' Passwords '
-    TabOrder = 2
+    TabOrder = 3
     object Label1: TLabel
       Left = 16
       Top = 80
@@ -60,6 +69,13 @@ object fmSettings: TfmSettings
       Width = 254
       Height = 13
       Caption = 'Download Proxy: (http://,https://,socks5://)'
+    end
+    object lblDebugScript: TLabel
+      Left = 16
+      Top = 200
+      Width = 82
+      Height = 13
+      Caption = 'Debug Script:'
     end
     object sbBrowse: TSpeedButton
       Left = 260
@@ -82,6 +98,17 @@ object fmSettings: TfmSettings
       Images = fmMain.VirtualImageList1
       Flat = True
       OnClick = sbBrowseCacheClick
+    end
+    object sbBrowseDebugScript: TSpeedButton
+      Left = 260
+      Top = 216
+      Width = 23
+      Height = 21
+      ImageIndex = 10
+      ImageName = 'sbBrowse'
+      Images = fmMain.VirtualImageList1
+      Flat = True
+      OnClick = sbBrowseDebugScriptClick
     end
     object cbSaveServerPasswords: TCheckBox
       Left = 16
@@ -125,6 +152,17 @@ object fmSettings: TfmSettings
       HideSelection = False
       MaxLength = 64
       TabOrder = 4
+    end
+    object edDebugScript: TEdit
+      Left = 16
+      Top = 216
+      Width = 245
+      Height = 21
+      Color = clBtnFace
+      HideSelection = False
+      MaxLength = 255
+      ReadOnly = True
+      TabOrder = 5
     end
   end
 end

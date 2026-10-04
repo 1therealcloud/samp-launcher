@@ -17,6 +17,7 @@ class CGameLauncher
 {
 public:
     static TGameLaunchResult Connect(TfmMain* Form, const String& Server, const String& Port, const String& Password);
+    static TGameLaunchResult Debug(TfmMain* Form, const String& DebugScript);
     static void HandleComplete(TfmMain* Form, TMessage& Message);
     static void Shutdown(TfmMain* Form);
 

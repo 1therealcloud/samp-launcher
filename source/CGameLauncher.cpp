@@ -40,6 +40,7 @@ private:
     String FCommandLine;
     String FWorkDir;
     String FSampDll;
+    DWORD FCreationFlags;
 
 protected:
     void __fastcall Execute() override;
@@ -48,9 +49,9 @@ public:
     TGameLaunchError Error;
 
     __fastcall TGameLaunchThread(HWND NotifyWindow, const String& GameExe, const String& CommandLine,
-                                 const String& WorkDir, const String& SampDll)
+                                 const String& WorkDir, const String& SampDll, DWORD CreationFlags)
         : TThread(true), FNotifyWindow(NotifyWindow), FGameExe(GameExe), FCommandLine(CommandLine), FWorkDir(WorkDir),
-          FSampDll(SampDll), Error(TGameLaunchError::None)
+          FSampDll(SampDll), FCreationFlags(CreationFlags), Error(TGameLaunchError::None)
     {
         FreeOnTerminate = false;
     }
@@ -80,9 +81,8 @@ void __fastcall TGameLaunchThread::Execute()
     if (Terminated)
         goto Finish;
 
-    if (!CreateProcessW(FGameExe.c_str(), &mutableCommandLine[0], nullptr, nullptr, FALSE,
-                        CREATE_NEW_PROCESS_GROUP | NORMAL_PRIORITY_CLASS | CREATE_SUSPENDED, nullptr, FWorkDir.c_str(),
-                        &si, &pi))
+    if (!CreateProcessW(FGameExe.c_str(), &mutableCommandLine[0], nullptr, nullptr, FALSE, FCreationFlags, nullptr,
+                        FWorkDir.c_str(), &si, &pi))
     {
         Error = TGameLaunchError::Execute;
         goto Finish;
@@ -265,7 +265,83 @@ TGameLaunchResult CGameLauncher::Connect(TfmMain* Form, const String& Server, co
     String workDir = ExtractFilePath(gameExe);
     try
     {
-        GameLaunchThread = new TGameLaunchThread(Form->Handle, gameExe, command, workDir, sampDll);
+        GameLaunchThread = new TGameLaunchThread(
+            Form->Handle, gameExe, command, workDir, sampDll,
+            CREATE_NEW_PROCESS_GROUP | NORMAL_PRIORITY_CLASS | CREATE_SUSPENDED);
+        GameLaunchThread->Start();
+    }
+    catch (...)
+    {
+        delete GameLaunchThread;
+        GameLaunchThread = nullptr;
+        MessageDlg("Unable to execute.", mtError, TMsgDlgButtons() << mbOK, 0);
+        return TGameLaunchResult::Failed;
+    }
+
+    return TGameLaunchResult::Started;
+}
+
+
+TGameLaunchResult CGameLauncher::Debug(TfmMain* Form, const String& DebugScript)
+{
+    if (!Form || GameLaunchShuttingDown)
+        return TGameLaunchResult::Failed;
+    if (GameLaunchThread || GameLaunchDnsPending)
+        return TGameLaunchResult::Started;
+
+    String gtaExe = CSettings::GetGtaExecutable();
+    if (!FileExists(gtaExe))
+    {
+        MessageDlg("GTA: San Andreas executable not found.\n(" + gtaExe + ")\n\nPlease locate it now.", mtError,
+                   TMsgDlgButtons() << mbOK, 0);
+        Form->GetGTAExe(Form->Handle);
+        gtaExe = CSettings::GetGtaExecutable();
+    }
+
+    if (!FileExists(gtaExe))
+    {
+        MessageDlg("GTA: San Andreas executable STILL not found.\n(" + gtaExe + ")\n\nAborting launch.", mtError,
+                   TMsgDlgButtons() << mbOK, 0);
+        return TGameLaunchResult::Failed;
+    }
+
+    String gameExe = GetAbsolutePath(gtaExe);
+    CSettings::SetGtaExecutable(gameExe, false);
+
+    String sampDll = GetAbsolutePath(ExtractFilePath(gameExe) + "samp.dll");
+    if (!FileExists(sampDll))
+    {
+        MessageDlg("SA-MP library not found.\n(" + sampDll + ")", mtError, TMsgDlgButtons() << mbOK, 0);
+        return TGameLaunchResult::Failed;
+    }
+
+    String debugScript = GetAbsolutePath(DebugScript);
+    if (!debugScript.IsEmpty())
+    {
+        if (!FileExists(debugScript))
+        {
+            MessageDlg("Debug script not found.\n(" + debugScript + ")", mtError, TMsgDlgButtons() << mbOK, 0);
+            return TGameLaunchResult::Failed;
+        }
+
+        if (debugScript.Pos(L"\"") != 0 || debugScript.Length() > 255)
+        {
+            MessageDlg("Debug script path is invalid or too long.", mtError, TMsgDlgButtons() << mbOK, 0);
+            return TGameLaunchResult::Failed;
+        }
+    }
+
+    // Match samp_debug.exe: gta_sa.exe receives -d directly as its command line.
+    // samp.dll parses -d and the optional -l "<script>" from GetCommandLine().
+    String commandLine = L"-d";
+    if (!debugScript.IsEmpty())
+        commandLine += L" -l \"" + debugScript + L"\"";
+
+    String workDir = ExtractFilePath(gameExe);
+    try
+    {
+        GameLaunchThread = new TGameLaunchThread(
+            Form->Handle, gameExe, commandLine, workDir, sampDll, CREATE_DEFAULT_ERROR_MODE | CREATE_SUSPENDED);
         GameLaunchThread->Start();
     }
     catch (...)
