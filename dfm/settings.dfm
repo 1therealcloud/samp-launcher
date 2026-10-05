@@ -158,10 +158,8 @@ object fmSettings: TfmSettings
       Top = 216
       Width = 245
       Height = 21
-      Color = clBtnFace
       HideSelection = False
       MaxLength = 255
-      ReadOnly = True
       TabOrder = 5
     end
   end
